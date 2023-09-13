@@ -10,7 +10,7 @@ Say you have code that calculates some percentage from census variables. This is
 
 
 ```python
-from lesp import lexecute
+from lesp import execute
 
 lesp_string = "(* 100 (/ (+ B09019012 B09019013) B09019001))"
 
@@ -22,7 +22,7 @@ mi_namespace = {
 }
 
 
-result = lexecute(lesp_string, mi_namespace)
+result = execute(lesp_string, mi_namespace)
 # .814814...
 ```
 
