@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lesp"
+version = "0.0.1"
+authors = [
+    {name = "Mike Vickers", email = "mike@datadrivendetroit.org"},
+]
+description = "Like lisp but way less."
+readme = "README.md"
+requires-python = ">=3.10"
+keywords = ["lisp"]
+license = {text = "BSD-3-Clause"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
