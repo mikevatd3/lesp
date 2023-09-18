@@ -14,6 +14,13 @@ def inner_extract(program: Exp, result: set, env):
                 pass
 
 
+def validate(lesp_code: str) -> bool:
+    """
+    TODO: Parse lesp code and make sure it is valid.
+    """
+    return False
+
+
 def extract_variables(lesp_code: str, env=standard_env()) -> set[str]:
     """
     This will get more complicated when we're introducing new data
@@ -21,6 +28,12 @@ def extract_variables(lesp_code: str, env=standard_env()) -> set[str]:
     """
 
     result = set()
+
+    program = parse(lesp_code)
+    
+    # If program is only one token return it wrapped in a set
+    if (type(program) != list) & (program not in env):
+        return {program}
 
     inner_extract(parse(lesp_code), result, env)
 
