@@ -32,8 +32,9 @@ def extract_variables(lesp_code: str, env=standard_env()) -> set[str]:
     program = parse(lesp_code)
     
     # If program is only one token return it wrapped in a set
-    if (type(program) != list) & (program not in env):
-        return {program}
+    if (type(program) != list):
+        if (program not in env):
+            return {program}
 
     inner_extract(parse(lesp_code), result, env)
 
