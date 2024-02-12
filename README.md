@@ -4,6 +4,8 @@
 
 LESP is a simple variable arithmetic machine. You provide a lisp-like calculation string, and then provide the namespace mapping the variables to their numeric values and lesp does the rest.
 
+*This is based heavily on Peter Norvig's python implementation of lisp described here: [https://norvig.com/lispy.html]*
+
 Example:
 
 Say you have code that calculates some percentage from census variables. This is how you would do that with LESP:
