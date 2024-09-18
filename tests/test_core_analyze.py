@@ -124,3 +124,15 @@ def test_validate_three():
     except LespCompileError as e:
         assert e.args[0] ==  "unexpected )"
 
+
+
+def test_validate_four():
+    try:
+        program = "(+ ( + 100 100) 100 ())"
+        validate_program(program)
+
+        print(parse(program))
+
+        assert False
+    except LespCompileError as e:
+        assert e.args[0] ==  "unexpected )"
