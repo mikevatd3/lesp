@@ -9,6 +9,20 @@ from .datatypes import (
 )
 
 
+STANDARD_ENV: Env = {
+    "+": op.add,
+    "/": op.truediv,
+    "*": op.mul,
+    ">": op.gt,
+    "<": op.lt,
+    "<=": op.le,
+    ">=": op.ge,
+    "==": op.eq,
+}
+
+
+
+
 def tokenize(chars: str) -> list[str]:
     return chars.replace("(", " ( ").replace(")", " ) ").split()
 
@@ -22,15 +36,22 @@ def atom(token: str) -> Atom:
         return Symbol(token)
 
 
-def read_from_tokens(tokens: list[str]) -> Exp | Atom:
+def read_from_tokens(tokens: list[str], depth=0) -> Exp | Atom:
     if len(tokens) == 0:
         raise SyntaxError("Expected EOF")
     token = tokens.pop(0)
     if token == '(':
         L = []
         while tokens[0] != ')':
-            L.append(read_from_tokens(tokens))
+            L.append(read_from_tokens(tokens, depth=depth+1))
         tokens.pop(0)
+
+        if tokens and depth == 0:
+            """"
+            When depth == 0, you're returning the completed expression.
+            If there are unconsumed characters, there is an error somewhere.
+            """
+            raise SyntaxError("unexpected ')'")
         return L
     elif token == ")":
         raise SyntaxError("unexpected ')'")
@@ -40,25 +61,6 @@ def read_from_tokens(tokens: list[str]) -> Exp | Atom:
 
 def parse(program: str) -> Exp | Atom:
     return read_from_tokens(tokenize(program))
-
-
-def standard_env() -> Env:
-    """
-    An env pared way back from the blog example.
-    """
-
-    env = {
-        "+": op.add,
-        "/": op.truediv,
-        "*": op.mul,
-        ">": op.gt,
-        "<": op.lt,
-        "<=": op.le,
-        ">=": op.ge,
-        "==": op.eq,
-    }
-
-    return env
 
 
 def eval(x: Exp, env, namespace: dict) -> float | bool | Exp:
@@ -83,5 +85,6 @@ def eval(x: Exp, env, namespace: dict) -> float | bool | Exp:
 
 def execute(expression: str, namespace: dict) -> float | bool:
     "This is a closure over eval with the standard operations env"
-    return eval(parse(expression), standard_env(), namespace) 
+
+    return eval(parse(expression), STANDARD_ENV, namespace) 
 

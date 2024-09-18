@@ -1,6 +1,6 @@
-from src.lesp.core import read_from_tokens, tokenize, atom, execute, parse
-from src.lesp.datatypes import Symbol, Number
-from src.lesp.analyze import extract_variables
+from lesp.core import read_from_tokens, tokenize, atom, execute, parse
+from lesp.datatypes import Symbol, Number
+from lesp.analyze import extract_variables, validate_program, LespCompileError
 
 
 def test_tokenize():
@@ -83,10 +83,44 @@ def test_execute():
     assert execute(lesp_string, namespace) == (100 * (2/3))
 
 
-if __name__ == "__main__":
-    test_tokenize()
-    test_atom()
-    test_read_from_tokens()
-    test_parse()
-    test_if()
-    test_extract_variables()
+def test_bad_parse():
+    try:
+        parse("(+ (+ 100 100)")
+    except IndexError:
+        return
+    assert False
+
+def test_bad_parse_two():
+    # This particular example should result in a parse/syntax error
+    try:
+        result = "+ (+ 100 100)))"
+        validate_program(result)
+        assert False
+    except LespCompileError:
+        assert True
+
+
+def test_validate_one():
+    validate_program("(+ 100 100)")
+
+
+def test_validate_two():
+    try:
+        validate_program("(+ (+ 100 100 100) (/ 100 100 100)")
+        assert False
+
+    except LespCompileError as e:
+        assert e.args[0] ==  "( was not closed"
+
+
+def test_validate_three():
+    try:
+        program = "(+) (100 + 100) (/ 100 100 100)"
+        validate_program(program)
+
+        print(parse(program))
+
+        assert False
+    except LespCompileError as e:
+        assert e.args[0] ==  "unexpected )"
+

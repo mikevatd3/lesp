@@ -1,18 +1,17 @@
-[build-system]
-requires = ["setuptools", "setuptools-scm"]
-build-backend = "setuptools.build_meta"
-
-[project]
+[tool.poetry]
 name = "lesp"
-version = "0.0.3"
-authors = [
-    {name = "Mike Vickers", email = "mike@datadrivendetroit.org"},
-]
-description = "Like lisp but way less."
+version = "0.2.0"
+description = "A commander calculator language"
+authors = ["mikevatd3 <mike@datadrivendetroit.org>"]
+license = "MIT"
 readme = "README.md"
-requires-python = ">=3.10"
-keywords = ["lisp"]
-license = {text = "BSD-3-Clause"}
-classifiers = [
-    "Programming Language :: Python :: 3",
-]
+
+[tool.poetry.dependencies]
+python = ">=3.10, <=3.13"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

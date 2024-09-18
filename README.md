@@ -30,3 +30,9 @@ result = execute(lesp_string, mi_namespace)
 
 LESP works with any object that has all arithmetic dunder methods defined.
 
+
+## Next steps
+
+- [ ] Make error handling around parsing / validation very good
+- [ ] Use mark tags to show the user where the problems are.
+
