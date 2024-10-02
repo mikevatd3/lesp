@@ -11,6 +11,7 @@ from .datatypes import (
 
 STANDARD_ENV: Env = {
     "+": op.add,
+    "-": op.sub,
     "/": op.truediv,
     "*": op.mul,
     ">": op.gt,
